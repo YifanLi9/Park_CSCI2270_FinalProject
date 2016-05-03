@@ -23,9 +23,10 @@ void ItemTree::addItemNode(string item, int price)
     ItemNode *next = new ItemNode(item, price);
     ItemNode *x = root;
     ItemNode *P = NULL;
-
+    
     if (x == NULL)
     {
+        
         root = next;
         root->parent = NULL;
         root->leftChild = NULL;
@@ -45,7 +46,7 @@ void ItemTree::addItemNode(string item, int price)
                 x = x->rightChild;
             }
         }
-
+        
         next->parent = P;
         next->leftChild = NULL;
         next->rightChild = NULL;
@@ -63,7 +64,7 @@ void ItemTree::addItemNode(string item, int price)
 void ItemTree::deleteItemNode(string item)
 {
     ItemNode *nodeDelete = searchItemTree(root, item);
-
+    
     if (nodeDelete == NULL)
     {
         cout << "Item is not found." << endl;
@@ -71,7 +72,7 @@ void ItemTree::deleteItemNode(string item)
     else
     {
         soldList.push_back(nodeDelete->item);
-
+        
         if (nodeDelete->leftChild==NULL || nodeDelete->rightChild==NULL)
         {
             // No Children
@@ -85,7 +86,7 @@ void ItemTree::deleteItemNode(string item)
                 {
                     nodeDelete->parent->rightChild = NULL;
                 }
-
+                
                 delete nodeDelete;
             }
             // One child
@@ -113,7 +114,7 @@ void ItemTree::deleteItemNode(string item)
                         nodeDelete->parent->rightChild = nodeDelete->leftChild;
                     }
                 }
-
+                
                 delete nodeDelete;
             }
         }
@@ -123,7 +124,7 @@ void ItemTree::deleteItemNode(string item)
             ItemNode *replNode = minimumNode(nodeDelete->rightChild);
             nodeDelete->item = replNode->item;
             nodeDelete->price = replNode->price;
-
+            
             if (replNode->rightChild != NULL)
             {
                 replNode->rightChild->parent = replNode->parent;
@@ -136,7 +137,7 @@ void ItemTree::deleteItemNode(string item)
             {
                 replNode->parent->rightChild = replNode->rightChild;
             }
-
+            
             delete replNode;
         }
     }
@@ -148,7 +149,7 @@ ItemNode* ItemTree::minimumNode(ItemNode *node)
     {
         node = node->leftChild;
     }
-
+    
     return node;
 }
 
@@ -161,9 +162,9 @@ void ItemTree::findItem(string item)
     else
     {
         cout << "Item Information:" << endl
-             << "******************" << endl
-             << "Item Name:" << searchItemTree(root, item)->item << endl
-             << "Price of Item:" << searchItemTree(root, item)->price << endl;
+        << "******************" << endl
+        << "Item Name:" << searchItemTree(root, item)->item << endl
+        << "Price of Item:" << searchItemTree(root, item)->price << endl;
     }
 }
 
@@ -194,7 +195,7 @@ int ItemTree::countItemNodes()
 {
     cnt = 0;
     countItemNodes(root);
-
+    
     return cnt;
 }
 
@@ -204,14 +205,18 @@ int ItemTree::countItemNodes(ItemNode *node)
     {
         countItemNodes(node->leftChild);
     }
-
+    
     cnt++;
-
+    
     if (node->rightChild != NULL)
     {
         countItemNodes(node->rightChild);
     }
+    return cnt;
+    
 }
+
+
 
 void ItemTree::printInOrder()
 {
@@ -232,9 +237,9 @@ void ItemTree::printInOrder(ItemNode *node)
     {
         printInOrder(node->leftChild);
     }
-
+    
     cout << node->item << ":" << node->price << endl;
-
+    
     if (node->rightChild != NULL)
     {
         printInOrder(node->rightChild);
@@ -257,12 +262,12 @@ void ItemTree::printPreOrder()
 void ItemTree::printPreOrder(ItemNode *node)
 {
     cout << node->item << ":" << node->price << endl;
-
+    
     if (node->leftChild != NULL)
     {
         printPreOrder(node->leftChild);
     }
-
+    
     if (node->rightChild != NULL)
     {
         printPreOrder(node->rightChild);
@@ -288,12 +293,12 @@ void ItemTree::printPostOrder(ItemNode *node)
     {
         printPostOrder(node->leftChild);
     }
-
+    
     if (node->rightChild != NULL)
     {
         printPostOrder(node->rightChild);
     }
-
+    
     cout << node->item << ":" << node->price << endl;
 }
 
@@ -306,7 +311,7 @@ void ItemTree::printSold()
     else
     {
         cout << "<ITEM>" << endl;
-
+        
         for (int i=0; i<soldList.size(); i++)
         {
             cout << soldList[i] << endl;
@@ -320,11 +325,23 @@ void ItemTree::DeleteAll(ItemNode *node)
     {
         DeleteAll(node->leftChild);
     }
-
-    if (node->rightChild != NULL)
+    
+    else if (node->rightChild != NULL)
     {
         DeleteAll(node->rightChild);
     }
-
     delete node;
+}
+
+void ItemTree::meun(){
+    cout << "-----MENU-----" << endl
+    << "1. Add an item" << endl
+    << "2. Delete an item" << endl
+    << "3. Search an item" << endl
+    << "4. Show # of Un-sold items in list" << endl
+    << "5. Display unsold items (In-order)" << endl
+    << "6. Display unsold items (Pre-order)" << endl
+    << "7. Display unsold items (Post-order)" << endl
+    << "8. Display list of sold items" << endl
+    << "9. Quit" << endl;
 }
